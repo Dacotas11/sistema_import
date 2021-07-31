@@ -1,7 +1,9 @@
 import 'package:postgres/postgres.dart';
+import 'package:sistema_importar_csv/utils/server_secure_storage.dart';
 
 Future<PostgreSQLResult> sqlUtils(String sqlcmd) async {
-  final conexion = PostgreSQLConnection('192.168.0.2', 5432, 'bits_erp_edutec',
+  final _serverIp = await ServerSecureStorage.getServerIp();
+  final conexion = PostgreSQLConnection(_serverIp, 5432, 'bits_erp_edutec',
       username: 'postgres', password: '123');
   await conexion.open();
   final resultado = await conexion.query(sqlcmd);
