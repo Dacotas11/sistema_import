@@ -56,6 +56,7 @@ class _ConfigurationsPageState extends State<ConfigurationsPage> {
     return ElevatedButton(
       onPressed: () async {
         await ServerSecureStorage.setServerIp(_ipServerController.text);
+        Navigator.pop(context);
       },
       child: Text('GUARDAR'),
     );
