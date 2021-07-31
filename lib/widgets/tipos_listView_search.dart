@@ -46,7 +46,7 @@ class _TiposListViewSearchState extends State<TiposListViewSearch> {
           TextField(
             onChanged: (value) => _runFilter(value),
             decoration: InputDecoration(
-                labelText: 'Search', suffixIcon: Icon(Icons.search)),
+                labelText: 'Buscar', suffixIcon: Icon(Icons.search)),
           ),
           SizedBox(
             height: 20,
@@ -70,7 +70,7 @@ class _TiposListViewSearchState extends State<TiposListViewSearch> {
                     ),
                   )
                 : Text(
-                    'No results found',
+                    'No se encontraron resultados',
                     style: TextStyle(fontSize: 24),
                   ),
           ),
