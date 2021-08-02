@@ -17,7 +17,7 @@ insertLista(int tipoId, List columnas, List valores, bool isLast) async {
   final id = await sqlUtils(
       'SELECT rowid FROM dbo.import ORDER BY rowid DESC LIMIT 1');
   await sqlUtils(
-      'SELECT after_row_import(${id.first.first}, $isLast, $tipoId);');
+      'SELECT dbo.after_row_import(${id.first.first}, $isLast, $tipoId);');
 }
 
 deleteTipo(int tipoId) async {
