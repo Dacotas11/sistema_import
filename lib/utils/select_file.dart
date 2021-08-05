@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:csv/csv.dart';
 import 'package:filepicker_windows/filepicker_windows.dart';
 import 'package:sistema_importar_csv/utils/utilidades_postgresql.dart';
@@ -35,4 +37,19 @@ selectXSLX(int tipoId) async {
     }
   }
   return 'No se puede leer archivo';
+}
+
+Future<File?> selectXSLXFile() async {
+  final file = OpenFilePicker()
+    ..filterSpecification = {
+      "Archivo EXCEL(.xlsx)": "*.xlsx",
+      "Archivo CSV (.csv)": "*.csv",
+    }
+    ..title = 'Elegir un archivo CSV';
+
+  final result = file.getFile();
+  if (result != null) {
+    return result;
+  }
+  return null;
 }

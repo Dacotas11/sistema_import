@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sistema_importar_csv/utils/server_secure_storage.dart';
 
 class ConfigurationsPage extends StatefulWidget {
   @override
@@ -11,13 +10,13 @@ class _ConfigurationsPageState extends State<ConfigurationsPage> {
 
   @override
   void initState() {
-    init();
+    // init();
     super.initState();
   }
 
-  init() async {
-    _ipServerController.text = await ServerSecureStorage.getServerIp();
-  }
+  // init() async {
+  //   _ipServerController.text = await ServerSecureStorage.getServerIp();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +54,7 @@ class _ConfigurationsPageState extends State<ConfigurationsPage> {
   Widget _crearBotonGuardar() {
     return ElevatedButton(
       onPressed: () async {
-        await ServerSecureStorage.setServerIp(_ipServerController.text);
+        // await ServerSecureStorage.setServerIp(_ipServerController.text);
         Navigator.pop(context);
       },
       child: Text('GUARDAR'),

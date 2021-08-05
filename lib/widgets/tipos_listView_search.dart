@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sistema_importar_csv/models/tipo_import_model.dart';
 import 'package:sistema_importar_csv/utils/utilidades_postgresql.dart';
 import 'package:sistema_importar_csv/views/home_page.dart';
 
@@ -8,28 +9,29 @@ class TiposListViewSearch extends StatefulWidget {
 }
 
 class _TiposListViewSearchState extends State<TiposListViewSearch> {
-  List _allUsers = [];
-  List _foundUsers = [];
+  List<TipoImport> _allTipos = [];
+  List<TipoImport> _foundTipos = [];
   @override
   initState() {
     getTipos();
-    _foundUsers = _allUsers;
+    _foundTipos = _allTipos;
     super.initState();
   }
 
   void _runFilter(String enteredKeyword) {
-    List results = [];
+    List<TipoImport> results = [];
     if (enteredKeyword.isEmpty) {
-      results = _allUsers;
+      results = _allTipos;
     } else {
-      results = _allUsers
-          .where((user) =>
-              user[1].toLowerCase().contains(enteredKeyword.toLowerCase()))
+      results = _allTipos
+          .where((tipo) => tipo.descripcion
+              .toLowerCase()
+              .contains(enteredKeyword.toLowerCase()))
           .toList();
     }
 
     setState(() {
-      _foundUsers = results;
+      _foundTipos = results;
     });
   }
 
@@ -52,16 +54,17 @@ class _TiposListViewSearchState extends State<TiposListViewSearch> {
             height: 20,
           ),
           Expanded(
-            child: _foundUsers.length > 0
+            child: _foundTipos.length > 0
                 ? ListView.builder(
-                    itemCount: _foundUsers.length,
+                    itemCount: _foundTipos.length,
                     itemBuilder: (context, index) => Column(
                       children: [
                         ListTile(
-                            title: Text(_foundUsers[index][1]),
+                            title: Text(_foundTipos[index].descripcion),
                             onTap: () {
                               Navigator.pop(context);
-                              showLoadingDialog(context, _foundUsers[index][0]);
+                              showLoadingDialog(
+                                  context, _foundTipos[index].tipoId);
                             }),
                         Divider(
                           height: 0,
@@ -82,8 +85,8 @@ class _TiposListViewSearchState extends State<TiposListViewSearch> {
   void getTipos() async {
     final tipos = await getImportTipos();
     setState(() {
-      _foundUsers = tipos;
-      _allUsers = tipos;
+      _foundTipos = tipos;
+      _allTipos = tipos;
     });
   }
 }

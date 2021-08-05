@@ -18,6 +18,10 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 ElevatedButton(
+                  child: Icon(Icons.add),
+                  onPressed: () => Navigator.pushNamed(context, 'prueba'),
+                ),
+                ElevatedButton(
                     onPressed: () async {
                       showMenuDialog(context);
                     },
@@ -33,12 +37,12 @@ class HomePage extends StatelessWidget {
 
   AppBar _crearAppBarHomePage(BuildContext context) {
     return AppBar(
-      title: Text('Sistema de importes'),
-      actions: [
-        ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, 'configurations'),
-            child: Icon(Icons.more_vert))
-      ],
+      title: Center(child: Text('Sistema de importes')),
+      // actions: [
+      //   ElevatedButton(
+      //       onPressed: () => Navigator.pushNamed(context, 'configurations'),
+      //       child: Container())
+      // ],
     );
   }
 
@@ -56,7 +60,6 @@ showMenuDialog(context) {
       context: context,
       builder: (_) {
         return AlertDialog(
-          // content: selectTipo(context),
           content: TiposListViewSearch(),
         );
       });

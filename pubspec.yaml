@@ -32,9 +32,8 @@ dependencies:
   filepicker_windows: ^2.0.0
   postgres: ^2.3.2
   spreadsheet_decoder: ^2.0.0
-  flutter_secure_storage: ^4.2.1
-  flutter_secure_storage_windows: ^1.0.0
-  flutter_secure_storage_macos: ^1.0.0
+  dropdown_search: ^0.6.3
+  
   
 
 dev_dependencies:
