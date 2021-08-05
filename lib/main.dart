@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sistema_importar_csv/views/configurations_page.dart';
 import 'package:sistema_importar_csv/views/home_page.dart';
-import 'package:sistema_importar_csv/views/prueba_page.dart';
 
 void main() => runApp(MyApp());
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -20,8 +18,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: 'home',
       routes: {
         'home': (_) => HomePage(),
-        'configurations': (_) => ConfigurationsPage(),
-        'prueba': (_) => PruebaPage()
+        // 'prueba': (_) => PruebaPage()
       },
       navigatorKey: navigatorKey,
     );
