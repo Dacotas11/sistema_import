@@ -11,7 +11,7 @@ Future<PostgreSQLResult> sqlUtils(String sqlcmd) async {
   try {
     // final _serverIp = await ServerSecureStorage.getServerIp();
     final conexion = PostgreSQLConnection(
-        '192.168.0.4', 5432, 'bits_erp_edutec',
+        '192.168.0.9', 5432, 'bits_erp_edutec',
         username: 'postgres', password: '123');
     await conexion.open();
     final resultado = await conexion.query(sqlcmd);
