@@ -48,8 +48,11 @@ Widget homePageBody(BuildContext context) {
           SizedBox(height: 20),
           ElevatedButton(
               onPressed: () {
-                showDialogLoading(context, _archivoFieldController.text,
-                    _dropDownKey.currentState!.getSelectedItem!.tipoId);
+                if (_archivoFieldController.text != '' &&
+                    _dropDownKey.currentState!.getSelectedItem != null) {
+                  showDialogLoading(context, _archivoFieldController.text,
+                      _dropDownKey.currentState!.getSelectedItem!.tipoId);
+                }
               },
               child: Text('IMPORTAR'))
         ],
