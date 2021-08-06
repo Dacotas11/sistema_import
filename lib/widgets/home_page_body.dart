@@ -10,12 +10,12 @@ Widget homePageBody(BuildContext context) {
   final _dropDownKey = GlobalKey<DropdownSearchState<TipoImport>>();
   final _archivoFieldController = TextEditingController();
   return Center(
-    child: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(
-              left: 100.0, right: 100.0, top: 50, bottom: 20),
-          child: DropdownSearch<TipoImport>(
+    child: Container(
+      constraints: BoxConstraints(maxWidth: 800, minWidth: 300),
+      margin: EdgeInsets.only(left: 40.0, right: 40.0, top: 50, bottom: 20),
+      child: Column(
+        children: [
+          DropdownSearch<TipoImport>(
             key: _dropDownKey,
             hint: 'Tipo de importe',
             mode: Mode.BOTTOM_SHEET,
@@ -31,10 +31,8 @@ Widget homePageBody(BuildContext context) {
                   child: Icon(Icons.search),
                 )),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 100),
-          child: TextField(
+          SizedBox(height: 15),
+          TextField(
             controller: _archivoFieldController,
             readOnly: true,
             decoration: InputDecoration(
@@ -47,15 +45,15 @@ Widget homePageBody(BuildContext context) {
               }
             },
           ),
-        ),
-        SizedBox(height: 20),
-        ElevatedButton(
-            onPressed: () {
-              showDialogLoading(context, _archivoFieldController.text,
-                  _dropDownKey.currentState!.getSelectedItem!.tipoId);
-            },
-            child: Text('IMPORTAR'))
-      ],
+          SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {
+                showDialogLoading(context, _archivoFieldController.text,
+                    _dropDownKey.currentState!.getSelectedItem!.tipoId);
+              },
+              child: Text('IMPORTAR'))
+        ],
+      ),
     ),
   );
 }
