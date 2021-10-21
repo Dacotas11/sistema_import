@@ -1,14 +1,25 @@
+import 'dart:io';
+
+import 'package:csv/csv.dart';
 import 'package:postgres/postgres.dart';
-import 'package:sistema_importar_csv/utils/server_secure_storage.dart';
+import 'package:sistema_importar_csv/models/tipo_import_model.dart';
+
+import 'package:sistema_importar_csv/widgets/postgresql_error_dialog.dart';
+import 'package:spreadsheet_decoder/spreadsheet_decoder.dart';
 
 Future<PostgreSQLResult> sqlUtils(String sqlcmd) async {
-  final _serverIp = await ServerSecureStorage.getServerIp();
-  final conexion = PostgreSQLConnection(_serverIp, 5432, 'bits_erp_edutec',
-      username: 'postgres', password: '123');
-  await conexion.open();
-  final resultado = await conexion.query(sqlcmd);
-  await conexion.close();
-  return resultado;
+  try {
+    // final _serverIp = await ServerSecureStorage.getServerIp();
+    final conexion = PostgreSQLConnection(
+        '192.168.0.9', 5432, 'bits_erp_edutec',
+        username: 'postgres', password: '123');
+    await conexion.open();
+    final resultado = await conexion.query(sqlcmd);
+    await conexion.close();
+    return resultado;
+  } catch (e) {
+    throw showPostgresqlErrorDialog('$e');
+  }
 }
 
 insertLista(int tipoId, List columnas, List valores, bool isLast) async {
@@ -37,11 +48,35 @@ insertImport(List list, int tipoId) async {
   }
 }
 
-getImportTipos() async {
-  List resultadoFinal = [];
+Future<List<TipoImport>> getImportTipos() async {
+  List<TipoImport> resultadoFinal = [];
   final resultado = await sqlUtils('SELECT * FROM dbo.tipo_import;');
   for (var item in resultado) {
-    resultadoFinal.add(item);
+    resultadoFinal.add(TipoImport(item[0], item[1]));
   }
   return resultadoFinal;
+}
+
+insertarArchivo(String path, int tipoId) async {
+  final result = File(path);
+  try {
+    if (result.path.contains('.xlsx')) {
+      var bytes = result.readAsBytesSync();
+      var decoder = SpreadsheetDecoder.decodeBytes(bytes, update: true);
+      var rows = [];
+      for (var table in decoder.tables.keys) {
+        for (var row in decoder.tables[table]!.rows) {
+          rows.add(row);
+        }
+      }
+      await insertImport(rows, tipoId);
+    } else {
+      final csvRaw = result.readAsStringSync();
+      await insertImport(CsvToListConverter().convert(csvRaw), tipoId);
+    }
+
+    return 'Proceso realizado';
+  } catch (e) {
+    return 'Hubo un error, el error es: $e';
+  }
 }
